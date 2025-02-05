@@ -2,6 +2,7 @@ import openmc
 import openmc.mgxs
 import openmc.deplete
 model = openmc.Model()
+openmc.deplete.pool.NUM_PROCESSES = 1
 materials = openmc.Materials.from_xml('../msbr/msbr-materials.xml')
 
 homogenous = openmc.Material(name = 'homogenous')
