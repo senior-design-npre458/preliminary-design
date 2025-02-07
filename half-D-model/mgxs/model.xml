@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='utf-8'?>
+<model>
+  <materials>
+    <material depletable="true" id="4" name="homogenous" volume="5086.8">
+      <density units="g/cm3" value="6.0104999999999995"/>
+      <nuclide ao="1.3206001922339528e-06" name="Li6"/>
+      <nuclide ao="0.02264301988231365" name="Li7"/>
+      <nuclide ao="0.04820798618401078" name="F19"/>
+      <nuclide ao="0.005049609027457756" name="Be9"/>
+      <nuclide ao="0.003787206770593319" name="Th232"/>
+      <nuclide ao="7.890014105402745e-05" name="U233"/>
+      <nuclide ao="0.000956686994133911" name="Mo92"/>
+      <nuclide ao="0.0005999783886345988" name="Mo94"/>
+      <nuclide ao="0.0010366231591158147" name="Mo95"/>
+      <nuclide ao="0.001088869018581111" name="Mo96"/>
+      <nuclide ao="0.0006257747817455891" name="Mo97"/>
+      <nuclide ao="0.001586445522663729" name="Mo98"/>
+      <nuclide ao="0.0006363545682873117" name="Mo100"/>
+      <nuclide ao="0.00030544771889443615" name="Cr50"/>
+      <nuclide ao="0.005890255217133697" name="Cr52"/>
+      <nuclide ao="0.0006679076587378684" name="Cr53"/>
+      <nuclide ao="0.00016625635332228805" name="Cr54"/>
+      <nuclide ao="0.00016396095775050368" name="Fe54"/>
+      <nuclide ao="0.0025738363930606876" name="Fe56"/>
+      <nuclide ao="5.944110683889092e-05" name="Fe57"/>
+      <nuclide ao="7.910520117304027e-06" name="Fe58"/>
+      <nuclide ao="0.00026084829832972284" name="C0"/>
+      <nuclide ao="0.00033267100308212927" name="Mn55"/>
+      <nuclide ao="0.00017147879752047978" name="Si28"/>
+      <nuclide ao="8.707204073526115e-06" name="Si29"/>
+      <nuclide ao="5.7398278358259985e-06" name="Si30"/>
+      <nuclide ao="3.408451505017017e-08" name="W180"/>
+      <nuclide ao="7.526997073579248e-06" name="W182"/>
+      <nuclide ao="4.0645784197327925e-06" name="W183"/>
+      <nuclide ao="8.702912842810117e-06" name="W184"/>
+      <nuclide ao="8.07518969063615e-06" name="W186"/>
+      <nuclide ao="0.00019353226543404728" name="Al27"/>
+      <nuclide ao="0.00011249938970001165" name="Ti46"/>
+      <nuclide ao="0.00010145399507491959" name="Ti47"/>
+      <nuclide ao="0.0010052672737799826" name="Ti48"/>
+      <nuclide ao="7.377232706388642e-05" name="Ti49"/>
+      <nuclide ao="7.06359804419467e-05" name="Ti50"/>
+      <nuclide ao="5.682295108501898e-05" name="Cu63"/>
+      <nuclide ao="2.5350513969238405e-05" name="Cu65"/>
+      <nuclide ao="0.0001772107683548311" name="Co59"/>
+      <nuclide ao="2.528816932241127e-05" name="P31"/>
+      <nuclide ao="2.3216945987239917e-05" name="S32"/>
+      <nuclide ao="1.828930971201051e-07" name="S33"/>
+      <nuclide ao="1.025013832941524e-06" name="S34"/>
+      <nuclide ao="3.561662845785481e-09" name="S36"/>
+      <nuclide ao="9.57248583650689e-07" name="B10"/>
+      <nuclide ao="3.872461727402233e-06" name="B11"/>
+      <nuclide ao="4.680997329569033e-07" name="Hf174"/>
+      <nuclide ao="1.5388778720958196e-05" name="Hf176"/>
+      <nuclide ao="5.4416593956239995e-05" name="Hf177"/>
+      <nuclide ao="7.9811004469152e-05" name="Hf178"/>
+      <nuclide ao="3.984698976795639e-05" name="Hf179"/>
+      <nuclide ao="0.00010263086645080105" name="Hf180"/>
+      <nuclide ao="0.0005620495209129685" name="Nb93"/>
+      <nuclide ao="0.04464280539340115" name="Ni58"/>
+      <nuclide ao="0.01719632871226066" name="Ni60"/>
+      <nuclide ao="0.0007475125023016317" name="Ni61"/>
+      <nuclide ao="0.00238339695553582" name="Ni62"/>
+      <nuclide ao="0.0006069809387932193" name="Ni64"/>
+      <sab fraction="0.5" name="c_Graphite"/>
+    </material>
+  </materials>
+  <geometry>
+    <cell id="1" material="4" name="core" region="-3 1 -2" universe="1"/>
+    <surface boundary="vacuum" coeffs="-10" id="1" type="z-plane"/>
+    <surface boundary="vacuum" coeffs="10" id="2" type="z-plane"/>
+    <surface boundary="reflective" coeffs="0.0 0.0 9" id="3" type="z-cylinder"/>
+  </geometry>
+  <settings>
+    <run_mode>eigenvalue</run_mode>
+    <particles>1000</particles>
+    <batches>100</batches>
+    <inactive>50</inactive>
+    <source particle="neutron" strength="1.0" type="independent">
+      <space type="box">
+        <parameters>-9 -9 -10 9 9 10</parameters>
+      </space>
+      <constraints>
+        <fissionable>true</fissionable>
+      </constraints>
+    </source>
+  </settings>
+  <tallies>
+    <filter id="1" type="cell">
+      <bins>1</bins>
+    </filter>
+    <filter id="2" type="energy">
+      <bins>0.0 20000000.0</bins>
+    </filter>
+    <tally id="1">
+      <filters>1 2</filters>
+      <nuclides>total</nuclides>
+      <scores>flux</scores>
+      <estimator>tracklength</estimator>
+    </tally>
+    <tally id="2">
+      <filters>1 2</filters>
+      <nuclides>total</nuclides>
+      <scores>nu-fission</scores>
+      <estimator>tracklength</estimator>
+    </tally>
+    <tally id="3">
+      <filters>1 2</filters>
+      <nuclides>total</nuclides>
+      <scores>flux</scores>
+      <estimator>tracklength</estimator>
+    </tally>
+    <tally id="4">
+      <filters>1 2</filters>
+      <nuclides>total</nuclides>
+      <scores>absorption</scores>
+      <estimator>tracklength</estimator>
+    </tally>
+  </tallies>
+</model>
