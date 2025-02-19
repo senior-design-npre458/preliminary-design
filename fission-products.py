@@ -48,3 +48,25 @@ def total_fission_dict(parent):
         return fission_dict
 
 
+def specific_fission(parent, energy="thermal"):
+    """returns the isotope with the corresponding thermal fission"""
+    fission_dict = total_fission_dict(parent)
+    specific_dict = {}
+
+    for isotope in fission_dict:
+        fission_yield = fission_dict[isotope][energy]
+
+        if fission_yield == 0:
+            continue
+
+        if fission_yield <= 1e-6:
+            continue
+
+        specific_dict[isotope] = fission_yield
+
+    return specific_dict
+
+
+u235_tf = specific_fission("235u")
+for isotope in u235_tf:
+    print(isotope, u235_tf[isotope])
