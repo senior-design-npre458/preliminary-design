@@ -54,7 +54,9 @@ sp.close()
 
 fisxs = fission.get_pandas_dataframe()['mean'].values[0]
 absxs = absorption.get_pandas_dataframe()['mean'].values[0]
-flux = absorption.tallies['flux'].get_pandas_dataframe()['mean'].values[0]
+
+P = 1e9 / 48710000.0
+flux = P / 1.60218e-13 * 200 * fisxs
 
 with open('output.txt','w') as file:
     file.write('fisxs, absxs, flux\n')

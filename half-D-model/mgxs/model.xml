@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<model>
+  <materials>
+    <material depletable="true" id="1" name="fuel" volume="48710000.0">
+      <density units="g/cm3" value="3.35"/>
+      <nuclide name="Li6" wo="3.937496230427712e-06"/>
+      <nuclide name="Li7" wo="0.07874598711233245"/>
+      <nuclide name="F19" wo="0.4539838253417305"/>
+      <nuclide name="Be9" wo="0.022557556251176076"/>
+      <nuclide name="Th232" wo="0.43559463428186046"/>
+      <nuclide name="U233" wo="0.009114059516670063"/>
+      <nuclide name="U233" wo="0.025"/>
+    </material>
+  </materials>
+  <geometry>
+    <cell id="1" material="1" name="core" region="-3 1 -2" universe="1"/>
+    <surface boundary="reflective" coeffs="-1000" id="1" type="z-plane"/>
+    <surface boundary="reflective" coeffs="1000" id="2" type="z-plane"/>
+    <surface boundary="reflective" coeffs="0.0 0.0 900" id="3" type="z-cylinder"/>
+  </geometry>
+  <settings>
+    <run_mode>eigenvalue</run_mode>
+    <particles>10000</particles>
+    <batches>100</batches>
+    <inactive>50</inactive>
+    <source particle="neutron" strength="1.0" type="independent">
+      <space type="box">
+        <parameters>-900 -900 -1000 900 900 1000</parameters>
+      </space>
+      <constraints>
+        <fissionable>true</fissionable>
+      </constraints>
+    </source>
+  </settings>
+  <tallies>
+    <filter id="1" type="cell">
+      <bins>1</bins>
+    </filter>
+    <filter id="2" type="energy">
+      <bins>0.0 20000000.0</bins>
+    </filter>
+    <tally id="1">
+      <filters>1 2</filters>
+      <nuclides>total</nuclides>
+      <scores>flux</scores>
+      <estimator>tracklength</estimator>
+    </tally>
+    <tally id="2">
+      <filters>1 2</filters>
+      <nuclides>total</nuclides>
+      <scores>nu-fission</scores>
+      <estimator>tracklength</estimator>
+    </tally>
+    <tally id="3">
+      <filters>1 2</filters>
+      <nuclides>total</nuclides>
+      <scores>flux</scores>
+      <estimator>tracklength</estimator>
+    </tally>
+    <tally id="4">
+      <filters>1 2</filters>
+      <nuclides>total</nuclides>
+      <scores>absorption</scores>
+      <estimator>tracklength</estimator>
+    </tally>
+  </tallies>
+</model>
