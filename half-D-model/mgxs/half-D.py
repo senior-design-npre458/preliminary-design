@@ -1,5 +1,6 @@
 import openmc
 import openmc.mgxs as mgxs
+import openmc.deplete
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -33,36 +34,21 @@ model.settings.inactive = 50
 model.settings.source = openmc.IndependentSource(space=openmc.stats.Box([-900, -900, -1000], 
                                                                         [900, 900, 1000]), constraints = {'fissionable':True})
 
-groups = mgxs.EnergyGroups(group_edges=np.array([0., 20.0e6]))
-fission = mgxs.FissionXS(domain=cell, energy_groups=groups, nu = True)
-absorption = mgxs.AbsorptionXS(domain=cell, energy_groups=groups)
+filename = '../depletion/chain_endfb71_pwr.xml'
+operator = openmc.deplete.CoupledOperator(model,filename)
+micro_xs = openmc.deplete.get_microxs_and_flux(model=model,domains=[uni],
+                nuclides = ['Xe135','Th232','Pa233'],energies=[0., 20.0e6],chain_file=filename, run_kwargs={'output': False})
 
-tallies = openmc.Tallies()
-tallies += fission.tallies.values()
-tallies += absorption.tallies.values()
-
-model.tallies = tallies
-
-model.run(output=True)
-
-sp = openmc.StatePoint('statepoint.100.h5')
-
-fission.load_from_statepoint(sp)
-absorption.load_from_statepoint(sp)
-
-sp.close()
-
-fisxs = fission.get_pandas_dataframe()['mean'].values[0]
-absxs = absorption.get_pandas_dataframe()['mean'].values[0]
-
-P = 1e9 / 48710000.0
-flux = P / 1.60218e-13 * 200 * fisxs
+xs = micro_xs[1][0]
+transmute = []
+for nuc, data in zip(xs.nuclides, xs.data):
+    if nuc == 'Th232':
+        transmute.append(np.str_(data[-1][0]))
+        continue
+    transmute.append(np.str_(np.sum(data)))
 
 with open('output.txt','w') as file:
-    file.write('fisxs, absxs, flux\n')
-    file.write(f'{fisxs},{absxs},{flux}')
+    file.write(', '.join(xs.nuclides))
+    file.write('\n')
+    file.write(', '.join(transmute))
     file.close()
-
-uni.plot(pixels=400000)
-plt.savefig('geom.png',dpi=600)
-plt.close()
