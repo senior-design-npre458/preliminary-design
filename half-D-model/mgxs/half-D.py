@@ -40,15 +40,19 @@ micro_xs = openmc.deplete.get_microxs_and_flux(model=model,domains=[uni],
                 nuclides = ['Xe135','Th232','Pa233'],energies=[0., 20.0e6],chain_file=filename, run_kwargs={'output': False})
 
 xs = micro_xs[1][0]
+total_abs = []
 transmute = []
+'''
+reactions : ['(n,gamma)', '(n,2n)', '(n,p)', '(n,a)', '(n,3n)', '(n,4n)', 'fission']
+'''
 for nuc, data in zip(xs.nuclides, xs.data):
-    if nuc == 'Th232':
-        transmute.append(np.str_(data[-1][0]))
-        continue
-    transmute.append(np.str_(np.sum(data)))
+    total_abs.append(np.str_(np.sum(data)))
+    transmute.append(np.str_(data[0][0]))
 
 with open('output.txt','w') as file:
     file.write(', '.join(xs.nuclides))
+    file.write('\n')
+    file.write(', '.join(total_abs))
     file.write('\n')
     file.write(', '.join(transmute))
     file.close()
