@@ -66,18 +66,7 @@ def specific_fission(parent, energy="thermal"):
 
     return specific_dict
 
-
-u235_tf = specific_fission("235u")
-u233_tf = specific_fission("233u")
-
-total = 0
-for isotope in u233_tf:
-    #print(isotope, u233_tf[isotope])
-    total += u233_tf[isotope]
-print(total)
-
-#fps = 7e11
-#sm = u233_tf["Sm149"]
-#smps = sm * fps
-
-#print(smps / 3600 / 24 / 365)
+if __name__ == "__main__":
+    u235_tf = specific_fission("235u")
+    for isotope in u235_tf:
+        print(isotope, u235_tf[isotope])
