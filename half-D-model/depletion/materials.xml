@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<materials>
+  <material depletable="true" id="1" name="fuel" volume="48710000.0">
+    <density units="g/cm3" value="3.35"/>
+    <nuclide name="Li6" wo="3.937496230427712e-06"/>
+    <nuclide name="Li7" wo="0.07874598711233245"/>
+    <nuclide name="Be9" wo="0.022557556251176076"/>
+    <nuclide name="F19" wo="0.4539838253417305"/>
+    <nuclide name="Th232" wo="0.43559463428186046"/>
+    <nuclide name="U233" wo="0.009114059516670063"/>
+    <nuclide name="U233" wo="0.025"/>
+  </material>
+</materials>
